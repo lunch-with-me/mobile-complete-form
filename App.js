@@ -8,7 +8,7 @@
 
 import React, {Component} from 'react';
 
-import {ScrollView,View, Text, Picker,StatusBar,TextInput,ImageBackground,TouchableOpacity,StyleSheet} from 'react-native';
+import {ScrollView,View, Text,Alert,Button, Picker,StatusBar,TextInput,ImageBackground,TouchableOpacity,StyleSheet} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import RadioForm, {
   RadioButton, 
@@ -33,10 +33,31 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state={
-      avatarSource:null
+      avatarSource:null,
+      name:"",
+      mobile:"",
+      gender:'-1'
+      
+
     }
   }
+  showError = () => {
+    Alert.alert("Sorry. Some required fields are missing.");
+  };
 
+  signUp = () => {
+    if (
+      this.state.name.length === 0 ||
+      this.state.name === undefined ||
+      this.state.mobile.length === 0 ||
+      this.state.mobile === undefined||
+      this.state.gender===-1
+     )
+    {
+      this.showError();
+    } 
+   
+  };
 pic=()=>{
   //alert('clicked');
   ImagePicker.showImagePicker(options, (response) => {
@@ -78,7 +99,8 @@ return (
        
         placeholder="Enter Full Name"
         //secureTextEntry={true}
-        //onChangeText={text =>this.setState({confirmpassword : text})}
+        onChangeText={text =>this.setState({name: text})}
+        defaultValue={this.state.name}
         placeholderTextColor="#D5AFAF"
         />
 
@@ -87,7 +109,7 @@ return (
 <RadioForm
       radio_props={gender}
       initial={-1}
-      onPress={(value)=>{}}
+      onPress={(value)=>{this.setState({gender:value})}}
       buttonSize={12}
       selectedButtonColor={'black'}
       buttonColor={'grey'}
@@ -123,7 +145,7 @@ return (
           onDateChange={(date) => {this.setState({date: date})}}
         />
 
-<Text style={styles.txt}>Description about yourself*</Text>
+<Text style={styles.txt}>Description about yourself</Text>
 <TextInput style={styles.input}
  
   placeholder="Self Description"
@@ -141,6 +163,8 @@ return (
   //secureTextEntry={true}
   //onChangeText={text =>this.setState({confirmpassword : text})}
   placeholderTextColor="#D5AFAF"
+  onChangeText={text =>this.setState({mobile: text})}
+        defaultValue={this.state.mobile}
   />
 
 <Text style={styles.txt}>Select Occupation*</Text>
@@ -158,10 +182,18 @@ return (
   <Picker.Item label="Other" value="o" />
 </Picker>
 
+            
+            
+          
+
         <TouchableOpacity 
         onPress={this.pic}>
           <Text style={styles.btn}>select a profile picture*</Text>
         </TouchableOpacity>
+        <Button title="Submit Form"
+        color="#000000"
+         onPress={() => this.signUp()} />
+        
         </ImageBackground>
       </View>
     </ScrollView>
