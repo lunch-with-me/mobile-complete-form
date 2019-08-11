@@ -191,7 +191,8 @@ return (
           <Text style={styles.btn}>select a profile picture*</Text>
         </TouchableOpacity>
         <Button title="Submit Form"
-        color="#000000"
+        style={styles.btn}
+        
          onPress={() => this.signUp()} />
         
         </ImageBackground>
